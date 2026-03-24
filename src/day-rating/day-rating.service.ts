@@ -1,11 +1,13 @@
 import { Injectable } from '@nestjs/common';
 
+import { getYearMap } from './utils/generate-year-map';
+ 
 @Injectable()
 export class DayRatingService {
-    findAll() {
-      return {
-        '2026-01-01': null,
-        '2026-01-02': 2
-      };
-    }
+  findAll(year: string) {
+
+    if (Number.isNaN(Number(year))) throw new Error('It is not valid year');
+
+    return getYearMap(Number(year));
+  }
 }
