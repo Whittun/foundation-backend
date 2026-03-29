@@ -12,7 +12,7 @@ export class DayRatingService {
     private readonly dayRatingRepository: Repository<DayRating>,
   ) {}
 
-  findAll(year: string) {
+  findUserYearRating(year: string) {
     const numYear = Number(year);
 
     if (Number.isNaN(numYear) || !Number.isInteger(numYear) || numYear < 1900 || numYear > 2100) {
