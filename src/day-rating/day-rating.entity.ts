@@ -1,5 +1,6 @@
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, PrimaryGeneratedColumn, Index } from "typeorm";
 
+@Index(['userId', 'date'], { unique: true })
 @Entity()
 export class DayRating {
   
@@ -10,7 +11,7 @@ export class DayRating {
   userId: number;
 
   @Column({type: 'date'})
-  date: Date;
+  date: string;
 
   @Column()
   rating: number;

@@ -1,7 +1,7 @@
 import { Injectable, BadRequestException } from '@nestjs/common';
 import { getYearMap } from './utils/generate-year-map';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { Repository, Between } from 'typeorm';
 import { DayRating } from './day-rating.entity';
  
 @Injectable()
@@ -12,7 +12,7 @@ export class DayRatingService {
     private readonly dayRatingRepository: Repository<DayRating>,
   ) {}
 
-  findUserYearRating(year: string) {
+  async findUserYearRatings(year: string) {
     const numYear = Number(year);
 
     if (Number.isNaN(numYear) || !Number.isInteger(numYear) || numYear < 1900 || numYear > 2100) {
@@ -20,9 +20,22 @@ export class DayRatingService {
     }
 
     const userId = 1;
-    const startDate = `${year}-01-01`;
-    const endDate = `${year}-12-31`;
+    const startDate = `${numYear}-01-01`;
+    const endDate = `${numYear}-12-31`;
 
-    return getYearMap(numYear);
+    const ratings = await this.dayRatingRepository.find({
+      where: {
+        userId,
+        date: Between(startDate, endDate),
+      },
+    })
+
+    const ratingsMap = getYearMap(numYear);
+
+    ratings.forEach((rating) => {
+      ratingsMap[rating.date] = rating.rating
+    })
+
+    return ratingsMap;
   }
 }

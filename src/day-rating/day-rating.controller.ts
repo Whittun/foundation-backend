@@ -7,6 +7,6 @@ export class DayRatingController {
 
   @Get()
   getDays (@Query('year') year: string) {
-    return this.dayRatingService.findAll(year);
+    return this.dayRatingService.findUserYearRatings(year);
   }
 }
