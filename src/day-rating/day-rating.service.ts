@@ -38,4 +38,8 @@ export class DayRatingService {
 
     return ratingsMap;
   }
+
+  setDayRating(date: string, rating: number) {
+    
+  }
 }
