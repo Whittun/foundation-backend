@@ -69,4 +69,26 @@ export class DayRatingService {
 
     return this.dayRatingRepository.save(newDayRating);
   }
+
+  async deleteDayRating(date: string) {
+    if (!isValidDateFormat(date)) {
+      throw new BadRequestException(
+        'The date must be in the YYYY-MM-DD format'
+      );
+    }
+
+    const dayRating = await this.dayRatingRepository.findOne({
+      where: {
+        userId: 1,
+        date
+      }
+    })
+
+    if (dayRating) {
+      await this.dayRatingRepository.delete(dayRating.id);
+      return {deleted: true}
+    }
+
+    return {deleted: false};
+  }
 }
