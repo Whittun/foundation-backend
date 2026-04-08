@@ -4,6 +4,7 @@ import { AppService } from './app.service';
 import { DayRatingModule } from './day-rating/day-rating.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { DayRating } from './day-rating/day-rating.entity';
+import { HabitsModule } from './habits/habits.module';
 
 @Module({
   imports: [
@@ -17,7 +18,7 @@ import { DayRating } from './day-rating/day-rating.entity';
       entities: [DayRating],
       synchronize: true
     }), 
-    DayRatingModule
+    DayRatingModule, HabitsModule
   ],
   controllers: [AppController],
   providers: [AppService],

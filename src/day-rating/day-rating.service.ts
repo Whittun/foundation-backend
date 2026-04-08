@@ -65,7 +65,7 @@ export class DayRatingService {
       userId: 1,
       date,
       rating,
-    });
+    }); 
 
     return this.dayRatingRepository.save(newDayRating);
   }

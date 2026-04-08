@@ -5,14 +5,14 @@ import { Column, Entity, PrimaryGeneratedColumn, Index } from "typeorm";
 export class DayRating {
   
   @PrimaryGeneratedColumn()
-  id: number;
+  id!: number;
 
   @Column()
-  userId: number;
+  userId!: number;
 
   @Column({type: 'date'})
-  date: string;
+  date!: string;
 
   @Column()
-  rating: number;
+  rating!: number;
 }
