@@ -1,7 +1,9 @@
-import { Column, CreateDateColumn, Entity, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { Column, CreateDateColumn, Entity, ManyToOne, PrimaryGeneratedColumn, Unique, UpdateDateColumn } from "typeorm";
 import { HabitEntity } from "./habit.entity";
 
+
 @Entity()
+@Unique(["habit", "level"])
 export class HabitLevelEntity {
 
   @PrimaryGeneratedColumn()
