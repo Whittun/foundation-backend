@@ -3,6 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { HabitEntity } from './entities/habit.entity';
 import { Repository } from 'typeorm';
 import { HabitLevelEntity } from './entities/habit-level.entity';
+import { CreateHabitLevelDto } from './dto/create-habit-level.dto';
 
 @Injectable()
 export class HabitsService {
@@ -20,8 +21,18 @@ export class HabitsService {
     return allHabits;
   }
 
-  async createHabit() {
-    
+  async createHabit(name: string) {
+    const newHabit = this.habitRepository.create({
+      name,
+    });
+
+    return this.habitRepository.save(newHabit);
+  }
+
+  async createHabitLevel(habitId: number, createDto: CreateHabitLevelDto) {
+    const newHabitLevel = this.habitLevelRepo.create({...createDto, habit: habitId})
+
+    return this.habitLevelRepo.save(newHabitLevel);
   }
 
   async updateHabitName(habitId: number, name: string) {
