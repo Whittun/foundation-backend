@@ -1,16 +1,22 @@
-import { Column, CreateDateColumn, Entity, ManyToOne, PrimaryGeneratedColumn, Unique, UpdateDateColumn } from "typeorm";
-import { HabitEntity } from "./habit.entity";
-
+import {
+  Column,
+  CreateDateColumn,
+  Entity,
+  ManyToOne,
+  PrimaryGeneratedColumn,
+  Unique,
+  UpdateDateColumn,
+} from 'typeorm';
+import { HabitEntity } from './habit.entity';
 
 @Entity()
-@Unique(["habit", "level"])
+@Unique(['habit', 'level'])
 export class HabitLevelEntity {
-
   @PrimaryGeneratedColumn()
   id!: number;
 
   @ManyToOne(() => HabitEntity, {
-    onDelete: "CASCADE",
+    onDelete: 'CASCADE',
   })
   habit!: HabitEntity;
 

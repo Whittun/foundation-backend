@@ -7,7 +7,7 @@ const zeroFormatted = (number: number) => {
 export const getYearMap = (targetYear: number) => {
   const yearMap: YearMap = {};
 
-  const processedDate = new Date(targetYear, 0, 1);   
+  const processedDate = new Date(targetYear, 0, 1);
 
   while (targetYear === processedDate.getFullYear()) {
     const year = processedDate.getFullYear();
@@ -22,4 +22,4 @@ export const getYearMap = (targetYear: number) => {
   }
 
   return yearMap;
-}
+};

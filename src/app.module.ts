@@ -16,9 +16,10 @@ import { HabitsModule } from './habits/habits.module';
       password: 'postgres',
       database: 'foundation',
       entities: [DayRating],
-      synchronize: true
-    }), 
-    DayRatingModule, HabitsModule
+      synchronize: true,
+    }),
+    DayRatingModule,
+    HabitsModule,
   ],
   controllers: [AppController],
   providers: [AppService],

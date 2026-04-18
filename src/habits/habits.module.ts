@@ -8,9 +8,6 @@ import { HabitLevelEntity } from './entities/habit-level.entity';
 @Module({
   providers: [HabitsService],
   controllers: [HabitsController],
-  imports: [TypeOrmModule.forFeature([
-    HabitEntity,
-    HabitLevelEntity
-  ])]
+  imports: [TypeOrmModule.forFeature([HabitEntity, HabitLevelEntity])],
 })
 export class HabitsModule {}

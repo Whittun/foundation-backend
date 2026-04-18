@@ -1,5 +1,4 @@
-import { IsInt, IsString, Min } from "class-validator";
-
+import { IsInt, IsString, Min } from 'class-validator';
 
 export class CreateHabitLevelDto {
   @IsInt()
@@ -12,5 +11,4 @@ export class CreateHabitLevelDto {
   @IsInt()
   @Min(1)
   target!: number;
-};
-
+}

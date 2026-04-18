@@ -7,8 +7,6 @@ import { DayRating } from './day-rating.entity';
 @Module({
   controllers: [DayRatingController],
   providers: [DayRatingService],
-  imports: [TypeOrmModule.forFeature([
-    DayRating
-  ])]
+  imports: [TypeOrmModule.forFeature([DayRating])],
 })
 export class DayRatingModule {}

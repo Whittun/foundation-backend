@@ -4,10 +4,9 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository, Between } from 'typeorm';
 import { DayRating } from './day-rating.entity';
 import { isValidDateFormat } from './utils/validate-date-format';
- 
+
 @Injectable()
 export class DayRatingService {
-
   constructor(
     @InjectRepository(DayRating)
     private readonly dayRatingRepository: Repository<DayRating>,
@@ -29,13 +28,13 @@ export class DayRatingService {
         userId,
         date: Between(startDate, endDate),
       },
-    })
+    });
 
     const ratingsMap = getYearMap(numYear);
 
     ratings.forEach((rating) => {
-      ratingsMap[rating.date] = rating.rating
-    })
+      ratingsMap[rating.date] = rating.rating;
+    });
 
     return ratingsMap;
   }
@@ -52,9 +51,9 @@ export class DayRatingService {
     const dayRating = await this.dayRatingRepository.findOne({
       where: {
         userId: 1,
-        date
-      }
-    })
+        date,
+      },
+    });
 
     if (dayRating) {
       dayRating.rating = rating;
@@ -65,30 +64,28 @@ export class DayRatingService {
       userId: 1,
       date,
       rating,
-    }); 
+    });
 
     return this.dayRatingRepository.save(newDayRating);
   }
 
   async deleteDayRating(date: string) {
     if (!isValidDateFormat(date)) {
-      throw new BadRequestException(
-        'The date must be in the YYYY-MM-DD format'
-      );
+      throw new BadRequestException('The date must be in the YYYY-MM-DD format');
     }
 
     const dayRating = await this.dayRatingRepository.findOne({
       where: {
         userId: 1,
-        date
-      }
-    })
+        date,
+      },
+    });
 
     if (dayRating) {
       await this.dayRatingRepository.delete(dayRating.id);
-      return {deleted: true}
+      return { deleted: true };
     }
 
-    return {deleted: false};
+    return { deleted: false };
   }
 }
