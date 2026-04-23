@@ -5,6 +5,8 @@ import { DayRatingModule } from './day-rating/day-rating.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { DayRating } from './day-rating/day-rating.entity';
 import { HabitsModule } from './habits/habits.module';
+import { HabitEntity } from './habits/entities/habit.entity';
+import { HabitLevelEntity } from './habits/entities/habit-level.entity';
 
 @Module({
   imports: [
@@ -15,7 +17,7 @@ import { HabitsModule } from './habits/habits.module';
       username: 'postgres',
       password: 'postgres',
       database: 'foundation',
-      entities: [DayRating],
+      entities: [DayRating, HabitEntity, HabitLevelEntity],
       synchronize: true,
     }),
     DayRatingModule,

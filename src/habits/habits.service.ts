@@ -5,6 +5,7 @@ import { Repository } from 'typeorm';
 import { HabitLevelEntity } from './entities/habit-level.entity';
 import { CreateHabitLevelDto } from './dto/create-habit-level.dto';
 import { UpdateHabitLevelDto } from './dto/update-habit-level.dto';
+import { CreateHabitDto } from './dto/create-habit.dto';
 
 @Injectable()
 export class HabitsService {
@@ -22,7 +23,24 @@ export class HabitsService {
     return allHabits;
   }
 
-  async createHabit(name: string) {
+  async updateHabitName(habitId: number, name: string) {
+    const habit = await this.habitRepository.findOne({
+      where: {
+        id: habitId,
+      },
+    });
+
+    if (!habit) {
+      throw new NotFoundException('habit does not exist');
+    }
+
+    habit.name = name;
+    return this.habitRepository.save(habit);
+  }
+
+  async createHabit(createHabitArgs: CreateHabitDto) {
+    const { name } = createHabitArgs;
+
     const newHabit = this.habitRepository.create({
       name,
     });
@@ -69,21 +87,6 @@ export class HabitsService {
 
     await this.habitLevelRepo.delete(habitLevelId);
     return { deleted: true };
-  }
-
-  async updateHabitName(habitId: number, name: string) {
-    const habit = await this.habitRepository.findOne({
-      where: {
-        id: habitId,
-      },
-    });
-
-    if (!habit) {
-      throw new NotFoundException('habit does not exist');
-    }
-
-    habit.name = name;
-    return this.habitRepository.save(habit);
   }
 
   async deleteHabit(habitId: number) {

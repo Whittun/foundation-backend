@@ -14,4 +14,9 @@ export class UpdateHabitLevelDto {
   @IsInt()
   @Min(1)
   target?: number;
+
+  @IsOptional()
+  @IsInt()
+  @Min(0)
+  progress?: number;
 }
