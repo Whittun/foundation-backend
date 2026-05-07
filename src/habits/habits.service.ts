@@ -1,7 +1,7 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { ConflictException, Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { HabitEntity } from './entities/habit.entity';
-import { Repository } from 'typeorm';
+import { QueryFailedError, Repository } from 'typeorm';
 import { HabitLevelEntity } from './entities/habit-level.entity';
 import { CreateHabitLevelDto } from './dto/create-habit-level.dto';
 import { UpdateHabitLevelDto } from './dto/update-habit-level.dto';
@@ -57,6 +57,19 @@ export class HabitsService {
 
     if (!habit) throw new NotFoundException('Habit not found');
 
+    const existingHabitLevel = await this.habitLevelRepo.findOne({
+      where: {
+        habit: {
+          id: habitId,
+        },
+        level: createDto.level,
+      },
+    });
+
+    if (existingHabitLevel) {
+      throw new ConflictException('Level already exists for this habit');
+    }
+
     const newHabitLevel = this.habitLevelRepo.create({ ...createDto, habit: habit });
 
     return this.habitLevelRepo.save(newHabitLevel);
@@ -105,6 +118,16 @@ export class HabitsService {
   }
 
   async findHabitLevelsByHabit(habitId: number) {
+    const habit = await this.habitRepository.findOne({
+      where: {
+        id: habitId,
+      },
+    });
+
+    if (!habit) {
+      throw new NotFoundException('Habit not found');
+    }
+
     const habitLevels = await this.habitLevelRepo.find({
       where: {
         habit: {

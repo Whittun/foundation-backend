@@ -3,6 +3,7 @@ import { HabitsService } from './habits.service';
 import { UpdateHabitLevelDto } from './dto/update-habit-level.dto';
 import { CreateHabitLevelDto } from './dto/create-habit-level.dto';
 import { CreateHabitDto } from './dto/create-habit.dto';
+import { UpdateHabitDto } from './dto/update-habit.dto';
 
 @Controller('habits')
 export class HabitsController {
@@ -14,13 +15,7 @@ export class HabitsController {
   }
 
   @Patch(':habitId')
-  updateHabitName(
-    @Param('habitId', ParseIntPipe) habitId: number,
-    @Body()
-    body: {
-      name: string;
-    },
-  ) {
+  updateHabitName(@Param('habitId', ParseIntPipe) habitId: number, @Body() body: UpdateHabitDto) {
     const { name } = body;
 
     return this.habitsService.updateHabitName(habitId, name);
