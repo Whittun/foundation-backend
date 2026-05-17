@@ -7,6 +7,7 @@ import { DayRating } from './day-rating/day-rating.entity';
 import { HabitsModule } from './habits/habits.module';
 import { HabitEntity } from './habits/entities/habit.entity';
 import { HabitLevelEntity } from './habits/entities/habit-level.entity';
+import { ObjectivesModule } from './objectives/objectives.module';
 
 @Module({
   imports: [
@@ -22,6 +23,7 @@ import { HabitLevelEntity } from './habits/entities/habit-level.entity';
     }),
     DayRatingModule,
     HabitsModule,
+    ObjectivesModule,
   ],
   controllers: [AppController],
   providers: [AppService],
