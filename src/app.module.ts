@@ -8,6 +8,9 @@ import { HabitsModule } from './habits/habits.module';
 import { HabitEntity } from './habits/entities/habit.entity';
 import { HabitLevelEntity } from './habits/entities/habit-level.entity';
 import { ObjectivesModule } from './objectives/objectives.module';
+import { ObjectiveGraphEntity } from './objectives/entities/objective-graph.entity';
+import { ObjectiveNodeEntity } from './objectives/entities/objective-node.entity';
+import { ObjectiveEdgeEntity } from './objectives/entities/objective-edge.entity';
 
 @Module({
   imports: [
@@ -18,7 +21,14 @@ import { ObjectivesModule } from './objectives/objectives.module';
       username: 'postgres',
       password: 'postgres',
       database: 'foundation',
-      entities: [DayRating, HabitEntity, HabitLevelEntity],
+      entities: [
+        DayRating,
+        HabitEntity,
+        HabitLevelEntity,
+        ObjectiveGraphEntity,
+        ObjectiveNodeEntity,
+        ObjectiveEdgeEntity,
+      ],
       synchronize: true,
     }),
     DayRatingModule,
