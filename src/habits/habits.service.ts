@@ -43,6 +43,7 @@ export class HabitsService {
 
     const newHabit = this.habitRepository.create({
       name,
+      userId: 1,
     });
 
     return this.habitRepository.save(newHabit);

@@ -14,6 +14,9 @@ export class HabitEntity {
   @Column({ length: 255 })
   name!: string;
 
+  @Column()
+  userId!: number;
+
   @CreateDateColumn({ type: 'timestamptz' })
   createdAt!: Date;
 
