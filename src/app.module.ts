@@ -11,6 +11,8 @@ import { ObjectivesModule } from './objectives/objectives.module';
 import { ObjectiveGraphEntity } from './objectives/entities/objective-graph.entity';
 import { ObjectiveNodeEntity } from './objectives/entities/objective-node.entity';
 import { ObjectiveEdgeEntity } from './objectives/entities/objective-edge.entity';
+import { UsersModule } from './users/users.module';
+import { UserEntity } from './users/entities/user.entity';
 
 @Module({
   imports: [
@@ -28,12 +30,14 @@ import { ObjectiveEdgeEntity } from './objectives/entities/objective-edge.entity
         ObjectiveGraphEntity,
         ObjectiveNodeEntity,
         ObjectiveEdgeEntity,
+        UserEntity,
       ],
       synchronize: true,
     }),
     DayRatingModule,
     HabitsModule,
     ObjectivesModule,
+    UsersModule,
   ],
   controllers: [AppController],
   providers: [AppService],
