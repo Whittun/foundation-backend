@@ -13,6 +13,7 @@ import { ObjectiveNodeEntity } from './objectives/entities/objective-node.entity
 import { ObjectiveEdgeEntity } from './objectives/entities/objective-edge.entity';
 import { UsersModule } from './users/users.module';
 import { UserEntity } from './users/entities/user.entity';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
@@ -38,6 +39,7 @@ import { UserEntity } from './users/entities/user.entity';
     HabitsModule,
     ObjectivesModule,
     UsersModule,
+    AuthModule,
   ],
   controllers: [AppController],
   providers: [AppService],
