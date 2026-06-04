@@ -4,10 +4,22 @@ import { RegisterDto } from './dto/register.dto';
 import * as argon2 from 'argon2';
 import { LoginDto } from './dto/login.dto';
 import { UserEntity } from 'src/users/entities/user.entity';
+import { JwtService } from '@nestjs/jwt';
 
 @Injectable()
 export class AuthService {
-  constructor(private readonly usersService: UsersService) {}
+  constructor(
+    private readonly usersService: UsersService,
+    private readonly jwtService: JwtService,
+  ) {}
+
+  private async createAccessToken(user: UserEntity) {
+    const accessToken = await this.jwtService.signAsync({
+      sub: user.id,
+    });
+
+    return accessToken;
+  }
 
   private toSafeUser(user: UserEntity) {
     return {
@@ -43,6 +55,8 @@ export class AuthService {
       throw new UnauthorizedException('invalid credentials');
     }
 
-    return this.toSafeUser(user);
+    const accessToken = await this.createAccessToken(user);
+
+    return { user: this.toSafeUser(user), accessToken };
   }
 }

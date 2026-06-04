@@ -14,9 +14,11 @@ import { ObjectiveEdgeEntity } from './objectives/entities/objective-edge.entity
 import { UsersModule } from './users/users.module';
 import { UserEntity } from './users/entities/user.entity';
 import { AuthModule } from './auth/auth.module';
+import { ConfigModule } from '@nestjs/config';
 
 @Module({
   imports: [
+    ConfigModule.forRoot({ isGlobal: true }),
     TypeOrmModule.forRoot({
       type: 'postgres',
       host: 'localhost',
