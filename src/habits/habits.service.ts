@@ -17,8 +17,12 @@ export class HabitsService {
     private readonly habitLevelRepo: Repository<HabitLevelEntity>,
   ) {}
 
-  async findAllHabits() {
-    const allHabits = await this.habitRepository.find();
+  async findAllHabits(userId: number) {
+    const allHabits = await this.habitRepository.find({
+      where: {
+        userId,
+      },
+    });
 
     return allHabits;
   }

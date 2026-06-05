@@ -1,17 +1,39 @@
-import { Body, Controller, Delete, Get, Param, ParseIntPipe, Patch, Post } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  ParseIntPipe,
+  Patch,
+  Post,
+  Req,
+  UseGuards,
+} from '@nestjs/common';
 import { HabitsService } from './habits.service';
 import { UpdateHabitLevelDto } from './dto/update-habit-level.dto';
 import { CreateHabitLevelDto } from './dto/create-habit-level.dto';
 import { CreateHabitDto } from './dto/create-habit.dto';
 import { UpdateHabitDto } from './dto/update-habit.dto';
+import { AuthGuard } from 'src/auth/guards/auth.guard';
+import { Request } from 'express';
 
+type AuthenticatedRequest = Request & {
+  user: {
+    id: number;
+  };
+};
+
+@UseGuards(AuthGuard)
 @Controller('habits')
 export class HabitsController {
   constructor(private readonly habitsService: HabitsService) {}
 
   @Get()
-  getHabits() {
-    return this.habitsService.findAllHabits();
+  getHabits(@Req() request: AuthenticatedRequest) {
+    const userId = request.user.id;
+
+    return this.habitsService.findAllHabits(userId);
   }
 
   @Patch(':habitId')
