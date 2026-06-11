@@ -12,14 +12,13 @@ export class DayRatingService {
     private readonly dayRatingRepository: Repository<DayRating>,
   ) {}
 
-  async findUserYearRatings(year: string) {
+  async findUserYearRatings(year: string, userId: number) {
     const numYear = Number(year);
 
     if (Number.isNaN(numYear) || !Number.isInteger(numYear) || numYear < 1900 || numYear > 2100) {
       throw new BadRequestException('The year must be between 1900 and 2100');
     }
 
-    const userId = 1;
     const startDate = `${numYear}-01-01`;
     const endDate = `${numYear}-12-31`;
 
@@ -39,7 +38,7 @@ export class DayRatingService {
     return ratingsMap;
   }
 
-  async setDayRating(date: string, rating: number) {
+  async setDayRating(date: string, userId: number, rating: number) {
     if (!Number.isInteger(rating) || rating > 5 || rating < 1) {
       throw new BadRequestException('The rating must be between 1 and 5');
     }
@@ -50,7 +49,7 @@ export class DayRatingService {
 
     const dayRating = await this.dayRatingRepository.findOne({
       where: {
-        userId: 1,
+        userId,
         date,
       },
     });
@@ -61,7 +60,7 @@ export class DayRatingService {
     }
 
     const newDayRating = this.dayRatingRepository.create({
-      userId: 1,
+      userId,
       date,
       rating,
     });
@@ -69,14 +68,14 @@ export class DayRatingService {
     return this.dayRatingRepository.save(newDayRating);
   }
 
-  async deleteDayRating(date: string) {
+  async deleteDayRating(date: string, userId: number) {
     if (!isValidDateFormat(date)) {
       throw new BadRequestException('The date must be in the YYYY-MM-DD format');
     }
 
     const dayRating = await this.dayRatingRepository.findOne({
       where: {
-        userId: 1,
+        userId,
         date,
       },
     });

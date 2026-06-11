@@ -16,13 +16,7 @@ import { CreateHabitLevelDto } from './dto/create-habit-level.dto';
 import { CreateHabitDto } from './dto/create-habit.dto';
 import { UpdateHabitDto } from './dto/update-habit.dto';
 import { AuthGuard } from 'src/auth/guards/auth.guard';
-import { Request } from 'express';
-
-type AuthenticatedRequest = Request & {
-  user: {
-    id: number;
-  };
-};
+import type { AuthenticatedRequest } from 'src/auth/types/authenticated-request.type';
 
 @UseGuards(AuthGuard)
 @Controller('habits')

@@ -103,9 +103,7 @@ export class ObjectivesService {
     }
   }
 
-  async getGraph() {
-    const userId = 1;
-
+  async getGraph(userId: number) {
     const graph = await this.getOrCreateGraph(userId);
 
     const nodes = await this.objectiveNodeRepo.find({
@@ -127,9 +125,7 @@ export class ObjectivesService {
     };
   }
 
-  async saveGraph(objectiveGraphDto: SaveObjectivesGraphDto) {
-    const userId = 1;
-
+  async saveGraph(objectiveGraphDto: SaveObjectivesGraphDto, userId: number) {
     const graph = await this.getOrCreateGraph(userId);
 
     if (objectiveGraphDto.version !== graph.version) {
