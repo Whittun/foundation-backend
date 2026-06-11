@@ -27,10 +27,11 @@ export class HabitsService {
     return allHabits;
   }
 
-  async updateHabitName(habitId: number, name: string) {
+  async updateHabitName(userId: number, habitId: number, name: string) {
     const habit = await this.habitRepository.findOne({
       where: {
         id: habitId,
+        userId,
       },
     });
 
@@ -42,21 +43,22 @@ export class HabitsService {
     return this.habitRepository.save(habit);
   }
 
-  async createHabit(createHabitArgs: CreateHabitDto) {
+  async createHabit(createHabitArgs: CreateHabitDto, userId: number) {
     const { name } = createHabitArgs;
 
     const newHabit = this.habitRepository.create({
       name,
-      userId: 1,
+      userId,
     });
 
     return this.habitRepository.save(newHabit);
   }
 
-  async createHabitLevel(habitId: number, createDto: CreateHabitLevelDto) {
+  async createHabitLevel(habitId: number, userId: number, createDto: CreateHabitLevelDto) {
     const habit = await this.habitRepository.findOne({
       where: {
         id: habitId,
+        userId,
       },
     });
 
@@ -80,10 +82,11 @@ export class HabitsService {
     return this.habitLevelRepo.save(newHabitLevel);
   }
 
-  async updateHabitLevel(habitLevelId: number, updateDto: UpdateHabitLevelDto) {
+  async updateHabitLevel(habitLevelId: number, userId: number, updateDto: UpdateHabitLevelDto) {
     const habitLevel = await this.habitLevelRepo.findOne({
       where: {
         id: habitLevelId,
+        habit: { userId: userId },
       },
     });
 
@@ -94,10 +97,11 @@ export class HabitsService {
     return this.habitLevelRepo.save(updatedHabitLevel);
   }
 
-  async deleteHabitLevel(habitLevelId: number) {
+  async deleteHabitLevel(habitLevelId: number, userId: number) {
     const habitLevel = await this.habitLevelRepo.findOne({
       where: {
         id: habitLevelId,
+        habit: { userId },
       },
     });
 
@@ -107,10 +111,11 @@ export class HabitsService {
     return { deleted: true };
   }
 
-  async deleteHabit(habitId: number) {
+  async deleteHabit(habitId: number, userId: number) {
     const habit = await this.habitRepository.findOne({
       where: {
         id: habitId,
+        userId,
       },
     });
 
@@ -122,10 +127,11 @@ export class HabitsService {
     return { deleted: true };
   }
 
-  async findHabitLevelsByHabit(habitId: number) {
+  async findHabitLevelsByHabit(habitId: number, userId: number) {
     const habit = await this.habitRepository.findOne({
       where: {
         id: habitId,
+        userId,
       },
     });
 

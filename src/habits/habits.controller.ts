@@ -37,45 +37,74 @@ export class HabitsController {
   }
 
   @Patch(':habitId')
-  updateHabitName(@Param('habitId', ParseIntPipe) habitId: number, @Body() body: UpdateHabitDto) {
+  updateHabitName(
+    @Param('habitId', ParseIntPipe) habitId: number,
+    @Req() request: AuthenticatedRequest,
+    @Body() body: UpdateHabitDto,
+  ) {
     const { name } = body;
 
-    return this.habitsService.updateHabitName(habitId, name);
+    const userId = request.user.id;
+
+    return this.habitsService.updateHabitName(userId, habitId, name);
   }
 
   @Post()
-  createHabit(@Body() body: CreateHabitDto) {
-    return this.habitsService.createHabit(body);
+  createHabit(@Body() body: CreateHabitDto, @Req() request: AuthenticatedRequest) {
+    const userId = request.user.id;
+
+    return this.habitsService.createHabit(body, userId);
   }
 
   @Delete(':habitId')
-  deleteHabit(@Param('habitId', ParseIntPipe) habitId: number) {
-    return this.habitsService.deleteHabit(habitId);
+  deleteHabit(
+    @Param('habitId', ParseIntPipe) habitId: number,
+    @Req() request: AuthenticatedRequest,
+  ) {
+    const userId = request.user.id;
+
+    return this.habitsService.deleteHabit(habitId, userId);
   }
 
   @Get(':habitId/levels')
-  getHabitLevelsByHabit(@Param('habitId', ParseIntPipe) habitId: number) {
-    return this.habitsService.findHabitLevelsByHabit(habitId);
+  getHabitLevelsByHabit(
+    @Param('habitId', ParseIntPipe) habitId: number,
+    @Req() request: AuthenticatedRequest,
+  ) {
+    const userId = request.user.id;
+
+    return this.habitsService.findHabitLevelsByHabit(habitId, userId);
   }
 
   @Patch('levels/:habitLevelId')
   updateHabitLevel(
     @Param('habitLevelId', ParseIntPipe) habitLevelId: number,
     @Body() body: UpdateHabitLevelDto,
+    @Req() request: AuthenticatedRequest,
   ) {
-    return this.habitsService.updateHabitLevel(habitLevelId, body);
+    const userId = request.user.id;
+
+    return this.habitsService.updateHabitLevel(habitLevelId, userId, body);
   }
 
   @Post(':habitId/levels')
   createHabitLevel(
     @Param('habitId', ParseIntPipe) habitId: number,
     @Body() body: CreateHabitLevelDto,
+    @Req() request: AuthenticatedRequest,
   ) {
-    return this.habitsService.createHabitLevel(habitId, body);
+    const userId = request.user.id;
+
+    return this.habitsService.createHabitLevel(habitId, userId, body);
   }
 
   @Delete('levels/:habitLevelId')
-  deleteHabitLevel(@Param('habitLevelId', ParseIntPipe) habitLevelId: number) {
-    return this.habitsService.deleteHabitLevel(habitLevelId);
+  deleteHabitLevel(
+    @Param('habitLevelId', ParseIntPipe) habitLevelId: number,
+    @Req() request: AuthenticatedRequest,
+  ) {
+    const userId = request.user.id;
+
+    return this.habitsService.deleteHabitLevel(habitLevelId, userId);
   }
 }
