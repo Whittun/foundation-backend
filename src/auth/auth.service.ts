@@ -28,6 +28,16 @@ export class AuthService {
     };
   }
 
+  async me(userId: number) {
+    const user = await this.usersService.findById(userId);
+
+    if (!user) {
+      throw new UnauthorizedException('user does not exist');
+    }
+
+    return this.toSafeUser(user);
+  }
+
   async register(registerDto: RegisterDto) {
     const user = await this.usersService.findByEmail(registerDto.email);
 
@@ -39,7 +49,9 @@ export class AuthService {
 
     const createdUser = await this.usersService.createUser(registerDto.email, passwordHash);
 
-    return this.toSafeUser(createdUser);
+    const accessToken = await this.createAccessToken(createdUser);
+
+    return { user: this.toSafeUser(createdUser), accessToken };
   }
 
   async login(loginDto: LoginDto) {

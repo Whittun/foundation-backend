@@ -1,16 +1,28 @@
-import { Body, Controller, Post, Res } from '@nestjs/common';
+import { Body, Controller, Get, Post, Req, Res, UseGuards } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { RegisterDto } from './dto/register.dto';
 import { LoginDto } from './dto/login.dto';
 import type { Response } from 'express';
+import type { AuthenticatedRequest } from './types/authenticated-request.type';
+import { AuthGuard } from './guards/auth.guard';
 
 @Controller('auth')
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
   @Post('register')
-  register(@Body() body: RegisterDto) {
-    return this.authService.register(body);
+  async register(@Body() body: RegisterDto, @Res({ passthrough: true }) response: Response) {
+    const { user, accessToken } = await this.authService.register(body);
+
+    response.cookie('accessToken', accessToken, {
+      httpOnly: true,
+      sameSite: 'lax',
+      secure: false,
+      path: '/',
+      maxAge: 7 * 24 * 60 * 60 * 1000,
+    });
+
+    return user;
   }
 
   @Post('login')
@@ -21,9 +33,30 @@ export class AuthController {
       httpOnly: true,
       sameSite: 'lax',
       secure: false,
+      path: '/',
       maxAge: 7 * 24 * 60 * 60 * 1000,
     });
 
     return user;
+  }
+
+  @UseGuards(AuthGuard)
+  @Get('me')
+  async me(@Req() request: AuthenticatedRequest) {
+    const userId = request.user.id;
+
+    return this.authService.me(userId);
+  }
+
+  @Post('logout')
+  logout(@Res({ passthrough: true }) response: Response) {
+    response.clearCookie('accessToken', {
+      httpOnly: true,
+      sameSite: 'lax',
+      secure: false,
+      path: '/',
+    });
+
+    return { success: true };
   }
 }
