@@ -1,10 +1,10 @@
 import { Body, Controller, Get, Post, Req, Res, UseGuards } from '@nestjs/common';
-import { AuthService } from './auth.service';
-import { RegisterDto } from './dto/register.dto';
-import { LoginDto } from './dto/login.dto';
 import type { Response } from 'express';
-import type { AuthenticatedRequest } from './types/authenticated-request.type';
+import { AuthService } from './auth.service';
+import { LoginDto } from './dto/login.dto';
+import { RegisterDto } from './dto/register.dto';
 import { AuthGuard } from './guards/auth.guard';
+import type { AuthenticatedRequest } from './types/authenticated-request.type';
 
 @Controller('auth')
 export class AuthController {
