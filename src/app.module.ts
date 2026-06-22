@@ -4,6 +4,8 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { AuthModule } from './auth/auth.module';
+import { DayNote } from './day-note/day-note.entity';
+import { DayNoteModule } from './day-note/day-note.module';
 import { DayRating } from './day-rating/day-rating.entity';
 import { DayRatingModule } from './day-rating/day-rating.module';
 import { HabitLevelEntity } from './habits/entities/habit-level.entity';
@@ -29,6 +31,7 @@ import { UsersModule } from './users/users.module';
         password: configService.getOrThrow<string>('DB_PASSWORD'),
         database: configService.getOrThrow<string>('DB_NAME'),
         entities: [
+          DayNote,
           DayRating,
           HabitEntity,
           HabitLevelEntity,
@@ -40,6 +43,7 @@ import { UsersModule } from './users/users.module';
         synchronize: configService.get<string>('TYPEORM_SYNCHRONIZE') === 'true',
       }),
     }),
+    DayNoteModule,
     DayRatingModule,
     HabitsModule,
     ObjectivesModule,

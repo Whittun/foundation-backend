@@ -3,7 +3,7 @@ import { getYearMap } from './utils/generate-year-map';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository, Between } from 'typeorm';
 import { DayRating } from './day-rating.entity';
-import { isValidDateFormat } from './utils/validate-date-format';
+import { isValidDateFormat } from 'src/shared/utils/validate-date-format';
 
 @Injectable()
 export class DayRatingService {
