@@ -1,8 +1,8 @@
 import { Body, Controller, Delete, Get, Param, Put, Req, UseGuards } from '@nestjs/common';
 import { AuthGuard } from 'src/auth/guards/auth.guard';
 import type { AuthenticatedRequest } from 'src/auth/types/authenticated-request.type';
-import { SetDayNoteDto } from './dto/set-day-note.dto';
 import { DayNoteService } from './day-note.service';
+import { SetDayNoteDto } from './dto/set-day-note.dto';
 
 @UseGuards(AuthGuard)
 @Controller('day-notes')
