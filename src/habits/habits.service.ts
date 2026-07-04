@@ -1,11 +1,11 @@
 import { ConflictException, Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { HabitEntity } from './entities/habit.entity';
-import { QueryFailedError, Repository } from 'typeorm';
-import { HabitLevelEntity } from './entities/habit-level.entity';
+import { Repository } from 'typeorm';
 import { CreateHabitLevelDto } from './dto/create-habit-level.dto';
-import { UpdateHabitLevelDto } from './dto/update-habit-level.dto';
 import { CreateHabitDto } from './dto/create-habit.dto';
+import { UpdateHabitLevelDto } from './dto/update-habit-level.dto';
+import { HabitLevelEntity } from './entities/habit-level.entity';
+import { HabitEntity } from './entities/habit.entity';
 
 @Injectable()
 export class HabitsService {
@@ -88,9 +88,27 @@ export class HabitsService {
         id: habitLevelId,
         habit: { userId: userId },
       },
+      relations: {
+        habit: true,
+      },
     });
 
     if (!habitLevel) throw new NotFoundException('HabitLevel not found');
+
+    if (updateDto.level !== undefined) {
+      const existingHabitLevel = await this.habitLevelRepo.findOne({
+        where: {
+          habit: {
+            id: habitLevel.habit.id,
+          },
+          level: updateDto.level,
+        },
+      });
+
+      if (existingHabitLevel && existingHabitLevel.id !== habitLevelId) {
+        throw new ConflictException('Level already exists for this habit');
+      }
+    }
 
     const updatedHabitLevel = { ...habitLevel, ...updateDto };
 
