@@ -1,11 +1,11 @@
 import { Module } from '@nestjs/common';
-import { ObjectivesService } from './objectives.service';
-import { ObjectivesController } from './objectives.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { ObjectiveEdgeEntity } from './entities/objective-edge.entity';
-import { ObjectiveNodeEntity } from './entities/objective-node.entity';
-import { ObjectiveGraphEntity } from './entities/objective-graph.entity';
 import { AuthModule } from 'src/auth/auth.module';
+import { ObjectiveEdgeEntity } from './entities/objective-edge.entity';
+import { ObjectiveGraphEntity } from './entities/objective-graph.entity';
+import { ObjectiveNodeEntity } from './entities/objective-node.entity';
+import { ObjectivesController } from './objectives.controller';
+import { ObjectivesService } from './objectives.service';
 
 @Module({
   providers: [ObjectivesService],

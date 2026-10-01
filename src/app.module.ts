@@ -17,6 +17,7 @@ import { ObjectiveNodeEntity } from './objectives/entities/objective-node.entity
 import { ObjectivesModule } from './objectives/objectives.module';
 import { UserEntity } from './users/entities/user.entity';
 import { UsersModule } from './users/users.module';
+import { TasksModule } from './tasks/tasks.module';
 
 @Module({
   imports: [
@@ -49,6 +50,7 @@ import { UsersModule } from './users/users.module';
     ObjectivesModule,
     UsersModule,
     AuthModule,
+    TasksModule,
   ],
   controllers: [AppController],
   providers: [AppService],
