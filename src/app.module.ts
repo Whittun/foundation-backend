@@ -15,9 +15,10 @@ import { ObjectiveEdgeEntity } from './objectives/entities/objective-edge.entity
 import { ObjectiveGraphEntity } from './objectives/entities/objective-graph.entity';
 import { ObjectiveNodeEntity } from './objectives/entities/objective-node.entity';
 import { ObjectivesModule } from './objectives/objectives.module';
+import { TaskEntity } from './tasks/task.entity';
+import { TasksModule } from './tasks/tasks.module';
 import { UserEntity } from './users/entities/user.entity';
 import { UsersModule } from './users/users.module';
-import { TasksModule } from './tasks/tasks.module';
 
 @Module({
   imports: [
@@ -40,6 +41,7 @@ import { TasksModule } from './tasks/tasks.module';
           ObjectiveNodeEntity,
           ObjectiveEdgeEntity,
           UserEntity,
+          TaskEntity,
         ],
         synchronize: configService.get<string>('TYPEORM_SYNCHRONIZE') === 'true',
       }),
