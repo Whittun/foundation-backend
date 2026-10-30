@@ -6,6 +6,18 @@ services:
       - postgres_data:/var/lib/postgresql
     env_file:
       - .env.production
-
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}']
+      interval: 5s
+      timeout: 3s
+      retries: 10
+  backend:
+    image: foundation-backend:local
+    env_file:
+      - .env.backend.production
+    restart: unless-stopped
+    depends_on:
+      postgres:
+        condition: service_healthy
 volumes:
   postgres_data:
